@@ -4,8 +4,8 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace LiteNetLib.Utils
 {
-    public class NetPacketProcessor
-    {
+    public class NetPacketProcessor {
+
         private static class HashCache<T>
         {
             public static readonly ulong Id;
@@ -42,6 +42,9 @@ namespace LiteNetLib.Utils
         {
             return HashCache<T>.Id;
         }
+
+        public bool HasSubscription<T>() where T : INetSerializable
+            => _callbacks.TryGetValue(GetHash<T>(), out var callback) && callback != null;
 
         protected virtual SubscribeDelegate GetCallbackFromData(NetDataReader reader)
         {
